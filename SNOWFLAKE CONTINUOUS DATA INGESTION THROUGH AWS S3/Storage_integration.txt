@@ -1,0 +1,22 @@
+
+CREATE OR REPLACE STORAGE integration BANK_s3_AWS_int
+TYPE = EXTERNAL_STAGE
+STORAGE_PROVIDER = S3
+ENABLED = TRUE
+STORAGE_AWS_ROLE_ARN ='arn:aws:iam::571600837242:role/bank_tran_role' 
+STORAGE_ALLOWED_LOCATIONS =('s3://bank-txn-data');
+
+                              
+
+
+DESC integration BANK_s3_AWS_int;
+
+
+CREATE OR REPLACE STAGE BANK_STAGE
+URL ='s3://bank-txn-data'
+file_format = DEMO_DB.PUBLIC.AWS_BANK_CSV
+storage_integration = BANK_s3_AWS_int;
+
+LIST @BANK_STAGE;
+
+SHOW STAGES;
